@@ -1,35 +1,69 @@
 ﻿<h3>Customers</h3>
 
+@page "/customers"
+@page "/"
+
+@rendermode InteractiveServer
+
 @inject SolarTech.Data.SolarTechDbContext DbContext
 @inject NavigationManager NavigationManager
 
+<button class="btn btn-primary" @onclick="AddNewCustomer">Add New Customer</button>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var customer in customers)
+            {
+            <tr>
+                <td>@customer.Id</td>
+                <td>@customer.Name</td>
+                <td>@customer.Email</td>
+                <td>@customer.Address</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" @onclick="() => EditCustomer(customer.Id)">Edit</button>
+                    <button class="btn btn-sm btn-danger" @onclick="() => DeleteCustomer(customer.Id)">Delete</button>
+                </td>
+            </tr>
+            }
+    </tbody>
+</table>
+
 
 @code {
-    private List<Customer> customers = new List<Customer>();
+    private List<Customer> customers;
 
-    protected override async Task OnInitializedAsync()
-    {
-        customers = await DbContext.Customers.ToListAsync();
-    }
+    protected override void OnInitialized()
+        {
+        customers = DbContext.Customers.ToList();
+        }
 
     private void AddNewCustomer()
-    {
+        {
         NavigationManager.NavigateTo("/customers/add");
-    }
+        }
 
     private void EditCustomer(int id)
-    {
+        {
         NavigationManager.NavigateTo($"/customers/edit/{id}");
-    }
+        }
 
     private void DeleteCustomer(int id)
-    {
-        var customer = DbContext.Customers.Find(id);
-        if (customer != null)
         {
+        var customer = DbContext.Customers.Find(id);
+        if(customer != null)
+            {
             DbContext.Customers.Remove(customer);
             DbContext.SaveChanges();
             customers.Remove(customer);
+            }
         }
-    }
 }

@@ -17,9 +17,9 @@ namespace SolarTech.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(50)", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(100)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,10 +33,10 @@ namespace SolarTech.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(150)", nullable: true),
-                    NetAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    CustomerId = table.Column<int>(type: "int", nullable: true),
-                    ImagePath = table.Column<string>(type: "nvarchar(150)", nullable: true)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NetAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,7 +45,8 @@ namespace SolarTech.Migrations
                         name: "FK_Orders_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

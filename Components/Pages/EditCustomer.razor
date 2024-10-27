@@ -1,32 +1,55 @@
 ﻿<h3>EditCustomer</h3>
 
+@page "/customers/edit/{id:int}"
+
+@rendermode InteractiveServer
+
 @inject SolarTech.Data.SolarTechDbContext DbContext
 @inject NavigationManager NavigationManager
 
-@page "/customers/edit/{id:int}"
+<EditForm Model="@customer" OnValidSubmit="SaveEditedCustomer">
+    <div class="form-group">
+        <label>Name</label>
+        <InputText class="form-control" @bind-Value="customer.Name" />
+    </div>
+
+    <div class="form-group">
+        <label>Email</label>
+        <InputText type="email" class="form-control" @bind-Value="customer.Email" />
+    </div>
+
+    <div class="form-group">
+        <label>Address</label>
+        <InputText class="form-control" @bind-Value="customer.Address" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+</EditForm>
 
 @code {
-
     [Parameter]
-    public required string Id { get; set; }
+    public int id { get; set; }
 
-    private Customer? customer;
+    private Customer customer;
 
-    protected override async Task OnInitializedAsync()
-    {
-        int customerId = int.Parse(Id);
-        customer = await DbContext.Customers.FindAsync(customerId);
-    }
+    protected override void OnInitialized()
+        {
+        customer = DbContext.Customers.Find(id);
+        }
 
-    private void SaveCustomer()
-    {
-        DbContext.SaveChanges();
-        NavigationManager.NavigateTo("/customers");
-    }
+    private void SaveEditedCustomer()
+        {
+        if(customer != null)
+            {
+            DbContext.Customers.Update(customer);
+            DbContext.SaveChanges();
+            NavigationManager.NavigateTo("/customers");
+            }
+        }
 
     private void Cancel()
-    {
+        {
         NavigationManager.NavigateTo("/customers");
-    }
-
+        }
 }
