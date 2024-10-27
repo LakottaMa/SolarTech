@@ -8,7 +8,7 @@ using SolarTech.Data;
 
 #nullable disable
 
-namespace SoloarTech.Migrations
+namespace SolarTech.Migrations
 {
     [DbContext(typeof(SolarTechDbContext))]
     partial class SolarTechDbContextModelSnapshot : ModelSnapshot

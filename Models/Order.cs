@@ -13,6 +13,5 @@
         public Customer? Customer { get; set; }
 
         public string? ImagePath { get; set; }
-
         }
     }

@@ -1,8 +1,8 @@
-using SoloarTech.Components;
+using SolarTech.Components;
 using Microsoft.EntityFrameworkCore;
 using SolarTech.Data;
 
-namespace SoloarTech
+namespace SolarTech
     {
     public static class Program
         {

@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SolarTech.Models;
-using SoloarTech.Components;
 
 namespace SolarTech.Data
     {

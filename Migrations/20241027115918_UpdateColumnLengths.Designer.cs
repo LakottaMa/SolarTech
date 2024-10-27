@@ -9,11 +9,11 @@ using SolarTech.Data;
 
 #nullable disable
 
-namespace SoloarTech.Migrations
+namespace SolarTech.Migrations
 {
     [DbContext(typeof(SolarTechDbContext))]
-    [Migration("20241027112503_UpdateOrderModel")]
-    partial class UpdateOrderModel
+    [Migration("20241027115918_UpdateColumnLengths")]
+    partial class UpdateColumnLengths
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

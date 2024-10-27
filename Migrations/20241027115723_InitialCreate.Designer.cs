@@ -9,10 +9,10 @@ using SolarTech.Data;
 
 #nullable disable
 
-namespace SoloarTech.Migrations
+namespace SolarTech.Migrations
 {
     [DbContext(typeof(SolarTechDbContext))]
-    [Migration("20241027105404_InitialCreate")]
+    [Migration("20241027115723_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -27,22 +27,19 @@ namespace SoloarTech.Migrations
 
             modelBuilder.Entity("SolarTech.Models.Customer", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -52,27 +49,25 @@ namespace SoloarTech.Migrations
 
             modelBuilder.Entity("SolarTech.Models.Order", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
 
-                    b.Property<int>("CustomerId")
+                    b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImagePath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("NetAmount")
+                    b.Property<decimal?>("NetAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -86,9 +81,7 @@ namespace SoloarTech.Migrations
                 {
                     b.HasOne("SolarTech.Models.Customer", "Customer")
                         .WithMany("Orders")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
                     b.Navigation("Customer");
                 });
