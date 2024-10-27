@@ -1,8 +1,10 @@
 using SoloarTech.Components;
+using Microsoft.EntityFrameworkCore;
+using SolarTech.Data;
 
 namespace SoloarTech
     {
-    public class Program
+    public static class Program
         {
         public static void Main(string[] args)
             {
@@ -11,6 +13,8 @@ namespace SoloarTech
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+            // Add the database context to the container
+            builder.Services.AddDbContext<SolarTechDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SolarTechDBContext")));
 
             var app = builder.Build();
 
