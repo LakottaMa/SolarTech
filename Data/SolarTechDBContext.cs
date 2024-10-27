@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SoloarTech.Models;
+using SolarTech.Models;
+using SoloarTech.Components;
 
 namespace SolarTech.Data
     {
-    public class SolarTechDBContext(DbContextOptions<SolarTechDBContext> options) : DbContext(options)
+    public class SolarTechDbContext(DbContextOptions<SolarTechDbContext> options) : DbContext(options)
         {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -12,14 +13,14 @@ namespace SolarTech.Data
             {
             base.OnModelCreating(modelBuilder);
 
-            // Configure the relationship between the Customer and Order entities
-            // A customer can have many orders
-            // An order belongs to one customer
-            // The foreign key is CustomerId
             modelBuilder.Entity<Customer>()
                 .HasMany(c => c.Orders)
                 .WithOne(o => o.Customer)
                 .HasForeignKey(o => o.CustomerId);
+
+            modelBuilder.Entity<Order>()
+                .Property(o => o.NetAmount)
+                .HasColumnType("decimal(18,2)");
             }
         }
     }

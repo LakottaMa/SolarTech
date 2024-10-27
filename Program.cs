@@ -14,7 +14,7 @@ namespace SoloarTech
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
             // Add the database context to the container
-            builder.Services.AddDbContext<SolarTechDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SolarTechDBContext")));
+            builder.Services.AddDbContext<SolarTechDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SolarTechDBContext")));
 
             var app = builder.Build();
 
