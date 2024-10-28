@@ -25,7 +25,7 @@
         @foreach(var order in orders)
             {
             <tr>
-                <td>@order.Id</td>
+                <td><a href="/order/details/@order.Id">@order.Id</a></td>
                 <td>@order.Date</td>
                 <td>@order.Customer.Name</td>
                 <td>@order.NetAmount</td>
