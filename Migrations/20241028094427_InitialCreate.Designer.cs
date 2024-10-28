@@ -12,7 +12,7 @@ using SolarTech.Data;
 namespace SolarTech.Migrations
 {
     [DbContext(typeof(SolarTechDbContext))]
-    [Migration("20241027140832_InitialCreate")]
+    [Migration("20241028094427_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -34,15 +34,12 @@ namespace SolarTech.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -61,15 +58,10 @@ namespace SolarTech.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("Date")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("NetAmount")
