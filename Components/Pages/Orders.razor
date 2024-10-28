@@ -1,0 +1,77 @@
+﻿<h3>Orders</h3>
+
+@page "/orders"
+
+@rendermode InteractiveServer
+
+@inject SolarTech.Data.SolarTechDbContext DbContext
+@inject NavigationManager NavigationManager
+
+<button class="btn btn-primary" @onclick="AddNewOrder">Add New Order</button>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>NetAmount</th>
+            <th>GrossAmount</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var order in orders)
+            {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.Date</td>
+                <td>@order.Customer.Name</td>
+                <td>@order.NetAmount</td>
+                <td>@order.GrossAmount</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" @onclick="() => EditOrder(order.Id)">Edit</button>
+                    <button class="btn btn-sm btn-danger" @onclick="() => DeleteOrder(order.Id)">Delete</button>
+                </td>
+            </tr>
+            }
+    </tbody>
+</table>
+
+
+@code {
+    private List<Order> orders;
+
+    protected override void OnInitialized()
+        {
+        if(DbContext != null)
+            {
+            orders = DbContext.Orders.Include(order => order.Customer).ToList();
+            }
+        }
+
+    private void AddNewOrder()
+        {
+        NavigationManager.NavigateTo("/orders/add");
+        }
+
+    private void EditOrder(int id)
+        {
+        NavigationManager.NavigateTo($"/orders/edit/{id}");
+        }
+
+    private void DeleteOrder(int id)
+        {
+        if(DbContext != null)
+            {
+            var order = DbContext.Orders.Find(id);
+            if(order != null)
+                {
+                DbContext.Orders.Remove(order);
+                DbContext.SaveChanges();
+                orders.Remove(order);
+                }
+            }
+        }
+}
