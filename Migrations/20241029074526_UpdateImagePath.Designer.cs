@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SolarTech.Data;
 
@@ -11,9 +12,11 @@ using SolarTech.Data;
 namespace SolarTech.Migrations
 {
     [DbContext(typeof(SolarTechDbContext))]
-    partial class SolarTechDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241029074526_UpdateImagePath")]
+    partial class UpdateImagePath
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

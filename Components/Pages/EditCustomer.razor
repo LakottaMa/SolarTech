@@ -10,7 +10,7 @@
 <EditForm Model="@customer" OnValidSubmit="SaveEditedCustomer">
     <div class="form-group">
         <label>Name</label>
-        <InputText class="form-control" @bind-Value="customer.Name" />
+        <InputText class="form-control" @bind-Value="customer!.Name" />
     </div>
 
     <div class="form-group">
@@ -18,11 +18,10 @@
         <InputText type="email" class="form-control" @bind-Value="customer.Email" />
     </div>
 
-    <div class="form-group">
+    <div class="mb-5 form-group">
         <label>Address</label>
         <InputText class="form-control" @bind-Value="customer.Address" />
     </div>
-
     <button type="submit" class="btn btn-primary">Update</button>
     <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
 </EditForm>
@@ -31,7 +30,7 @@
     [Parameter]
     public int id { get; set; }
 
-    private Customer customer;
+    private Customer? customer;
 
     protected override void OnInitialized()
         {

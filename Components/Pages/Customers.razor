@@ -1,7 +1,6 @@
 ﻿<h3>Customers</h3>
 
 @page "/customers"
-@page "/"
 
 @rendermode InteractiveServer
 
@@ -21,7 +20,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(var customer in customers)
+        @foreach(var customer in customers!)
             {
             <tr>
                 <td>@customer.Id</td>
@@ -39,7 +38,7 @@
 
 
 @code {
-    private List<Customer> customers;
+    private List<Customer>? customers;
 
     protected override void OnInitialized()
         {
@@ -63,7 +62,7 @@
             {
             DbContext.Customers.Remove(customer);
             DbContext.SaveChanges();
-            customers.Remove(customer);
+            customers!.Remove(customer);
             }
         }
 }

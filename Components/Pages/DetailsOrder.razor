@@ -21,8 +21,14 @@
 else
     {
     <div class="card">
-        <div class="card-header">
-            Order Nr. @order.Id - @order.Customer.Name
+        <div class="mb-3 card-header">
+            Order Nr. @order.Id - @order.Customer!.Name
+            @if(!string.IsNullOrEmpty(order.ImagePath))
+                {
+                 <div class="my-2">
+                    <img class="img-fluid img-thumbnail" src="@order.ImagePath" alt="Order Image" />
+                 </div>
+                }
         </div>
         <div class="card-body">
             <h5 class="card-title">
@@ -42,7 +48,7 @@ else
             <hr />
         </div>
         <div class="card-footer">
-            <button class="btn btn-secondary" @onclick="GoBack">Go Back</button>
+            <button type="button" class="btn btn-secondary" @onclick="GoBack">Go Back</button>
         </div>
     </div>
     }
@@ -52,7 +58,7 @@ else
     [Parameter]
     public int Id { get; set; }
 
-    private Order order;
+    private Order? order;
 
 
     protected override void OnInitialized()

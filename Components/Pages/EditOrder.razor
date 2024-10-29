@@ -1,4 +1,4 @@
-﻿<h3>EditOrder</h3>
+﻿@using SolarTech.Helpers
 
 @page "/orders/edit/{id:int}"
 
@@ -6,12 +6,13 @@
 
 @inject SolarTech.Data.SolarTechDbContext DbContext
 @inject NavigationManager NavigationManager
+<h3>EditOrder</h3>
 
 <EditForm Model="@order" OnSubmit="SaveOrder">
 
     <div class="form-group">
         <label>Date</label>
-        <InputDate class="form-control" @bind-Value="order.Date" />
+        <InputDate class="form-control" @bind-Value="order!.Date" />
     </div>
     <div class="form-group">
         <label>Description</label>
@@ -21,6 +22,22 @@
         <label>NetAmount</label>
         <InputNumber class="form-control" @bind-Value="order.NetAmount" />
     </div>
+
+    <div class="mb-5 form-group">
+        <label>Image</label>
+        <InputFile OnChange="HandleImageUpload" class="form-control" />
+    </div>
+
+    <div class="mb-3 card-header">
+        Order Nr. @order.Id - @order.Customer!.Name
+        @if(!string.IsNullOrEmpty(order.ImagePath))
+            {
+            <div class="my-2">
+                <img class="img-fluid img-thumbnail" src="@order.ImagePath" alt="Order Image" />
+            </div>
+            }
+    </div>
+
     <div class="mb-5 form-group">
         <label>Customer</label>
         <InputSelect class="form-control" @bind-Value="order.CustomerId">
@@ -38,8 +55,10 @@
 
     [Parameter]
     public int Id { get; set; }
-    private Order order;
-    private List<Customer> customers;
+    private Order? order;
+    private List<Customer>? customers;
+
+    private IBrowserFile? selectedImage;
 
     protected override void OnInitialized()
         {
@@ -47,10 +66,26 @@
         order = DbContext.Orders.Find(Id);
         }
 
-    private void SaveOrder()
+    private async Task HandleImageUpload(InputFileChangeEventArgs e)
         {
-        DbContext.Orders.Update(order);
-        DbContext.SaveChanges();
+        selectedImage = e.File;
+        var buffer = new byte[selectedImage.Size];
+        await selectedImage.OpenReadStream().ReadAsync(buffer);
+        order!.ImagePath = selectedImage.Name;
+        }
+
+    private async Task SaveOrder()
+        {
+
+        if(selectedImage != null)
+            {
+            OrderFileUploadHelper orderFileUploadHelper = new OrderFileUploadHelper();
+            var filePath = await orderFileUploadHelper.UploadOrderImage(selectedImage);
+            order!.ImagePath = filePath;
+            }
+
+        DbContext.Orders.Update(order!);
+        await DbContext.SaveChangesAsync();
         NavigationManager.NavigateTo("/orders");
         }
 

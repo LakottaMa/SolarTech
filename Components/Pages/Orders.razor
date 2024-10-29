@@ -1,6 +1,7 @@
 ﻿<h3>Orders</h3>
 
 @page "/orders"
+@page "/"
 
 @rendermode InteractiveServer
 
@@ -22,12 +23,12 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(var order in orders)
+        @foreach(var order in orders!)
             {
             <tr>
                 <td><a href="/order/details/@order.Id">@order.Id</a></td>
                 <td>@order.Date</td>
-                <td>@order.Customer.Name</td>
+                <td>@order.Customer!.Name</td>
                 <td>@order.NetAmount</td>
                 <td>@order.GrossAmount</td>
                 <td>
@@ -41,7 +42,7 @@
 
 
 @code {
-    private List<Order> orders;
+    private List<Order>? orders;
 
     protected override void OnInitialized()
         {
@@ -70,7 +71,7 @@
                 {
                 DbContext.Orders.Remove(order);
                 DbContext.SaveChanges();
-                orders.Remove(order);
+                orders!.Remove(order);
                 }
             }
         }
