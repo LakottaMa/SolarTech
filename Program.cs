@@ -1,6 +1,9 @@
 using SolarTech.Components;
 using Microsoft.EntityFrameworkCore;
 using SolarTech.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Components.Authorization;
+using SolarTech.Components.Account;
 
 namespace SolarTech
     {
@@ -15,6 +18,28 @@ namespace SolarTech
                 .AddInteractiveServerComponents();
             // Add the database context to the container
             builder.Services.AddDbContext<SolarTechDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SolarTechDBContext")));
+
+            builder.Services.AddCascadingAuthenticationState();
+
+            builder.Services.AddScoped<IdentityUserAccessor>();
+
+            builder.Services.AddScoped<IdentityRedirectManager>();
+
+            builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+
+            builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultScheme = IdentityConstants.ApplicationScheme;
+        options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+    })
+    .AddIdentityCookies();
+
+            builder.Services.AddIdentityCore<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<SolarTechDbContext>()
+    .AddSignInManager()
+    .AddDefaultTokenProviders();
+
+            builder.Services.AddSingleton<IEmailSender<IdentityUser>, IdentityNoOpEmailSender>();
 
             var app = builder.Build();
 
@@ -33,6 +58,8 @@ namespace SolarTech
 
             app.MapRazorComponents<App>()
                 .AddInteractiveServerRenderMode();
+
+            app.MapAdditionalIdentityEndpoints();
 
             app.Run();
             }

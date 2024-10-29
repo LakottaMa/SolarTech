@@ -1,4 +1,4 @@
-﻿<h3>DetailsOrder</h3>
+﻿@attribute [Authorize]
 
 @page "/order/details/{id:int}"
 
@@ -6,6 +6,8 @@
 
 @inject SolarTech.Data.SolarTechDbContext DbContext
 @inject NavigationManager NavigationManager
+
+<h3>DetailsOrder</h3>
 
 @if(order == null)
     {

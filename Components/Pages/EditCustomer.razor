@@ -1,4 +1,4 @@
-﻿<h3>EditCustomer</h3>
+﻿@attribute [Authorize]
 
 @page "/customers/edit/{id:int}"
 
@@ -6,6 +6,8 @@
 
 @inject SolarTech.Data.SolarTechDbContext DbContext
 @inject NavigationManager NavigationManager
+
+<h3>EditCustomer</h3>
 
 <EditForm Model="@customer" OnValidSubmit="SaveEditedCustomer">
     <div class="form-group">

@@ -1,11 +1,12 @@
-﻿<h3>Customers</h3>
-
+﻿@attribute [Authorize]
 @page "/customers"
 
 @rendermode InteractiveServer
 
 @inject SolarTech.Data.SolarTechDbContext DbContext
 @inject NavigationManager NavigationManager
+
+<h3>Customers</h3>
 
 <button class="btn btn-primary" @onclick="AddNewCustomer">Add New Customer</button>
 

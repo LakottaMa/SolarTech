@@ -1,4 +1,6 @@
-﻿@using SolarTech.Helpers
+﻿@attribute [Authorize]
+
+@using SolarTech.Helpers
 
 @page "/orders/edit/{id:int}"
 
@@ -6,6 +8,7 @@
 
 @inject SolarTech.Data.SolarTechDbContext DbContext
 @inject NavigationManager NavigationManager
+
 <h3>EditOrder</h3>
 
 <EditForm Model="@order" OnSubmit="SaveOrder">

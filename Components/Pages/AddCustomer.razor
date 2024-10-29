@@ -1,4 +1,4 @@
-﻿<h3>AddCustomer</h3>
+﻿@attribute [Authorize]
 
 @page "/customers/add"
 
@@ -6,6 +6,8 @@
 
 @inject SolarTech.Data.SolarTechDbContext DbContext
 @inject NavigationManager NavigationManager
+
+<h3>AddCustomer</h3>
 
 <EditForm Model="@newCustomer" OnSubmit="SaveCustomer">
     <DataAnnotationsValidator />
